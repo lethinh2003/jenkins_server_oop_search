@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     // Get the commit details using git command
-                    def commitInfo = sh(script: 'git log -1 --pretty=format:"%H%n%an%n%ae%n%s"', returnStdout: true).trim()
+                    def commitInfo = bat(script: 'git log -1 --pretty=format:"%H%n%an%n%ae%n%s"', returnStdout: true).trim()
 
                     // Split the commit information into separate variables
                     def commitHash
