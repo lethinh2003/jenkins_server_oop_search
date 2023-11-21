@@ -24,7 +24,7 @@ pipeline {
                 script {
                     def prDetails = httpRequest(
                         acceptType: 'APPLICATION_JSON',
-                        authentication: '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',
+                        authentication: 'Bearer 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',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'GET',
                         url: "https://api.github.com/repos/lethinh2003/jenkins_server_oop_search/pulls/${env.CHANGE_ID}"
