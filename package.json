@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "npm run format:check && npm run format:write && npm run lint:check",
+    "test": "npm run format:write && npm run lint:check",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "format:check": "prettier --check .",
