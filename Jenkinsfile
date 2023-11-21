@@ -27,7 +27,6 @@ pipeline {
                         authentication: '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',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'GET',
-                        responseHandle: 'JSON',
                         url: "https://api.github.com/repos/lethinh2003/jenkins_server_oop_search/pulls/${env.CHANGE_ID}"
                     )
 
