@@ -27,7 +27,7 @@ pipeline {
                         authorization: 'Bearer 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',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'GET',
-                        url: "https://api.github.com/repos/lethinh2003/jenkins_server_oop_search/pulls/${env.CHANGE_ID}"
+                        url: "https://api.github.com/repos/lethinh2003/jenkins_server_oop_search/pulls/1"
                     )
 
                     def reviewers = prDetails.requested_reviewers
