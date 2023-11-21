@@ -24,10 +24,10 @@ pipeline {
                 script {
                     def prDetails = httpRequest(
                         acceptType: 'APPLICATION_JSON',
-                        authorization: 'Bearer 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',
+                        authorization: 'Bearer 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',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'GET',
-                        url: "https://api.github.com/repos/lethinh2003/jenkins_server_oop_search/pulls/1"
+                        url: "https://api.github.com/repos/lethinh2003/jenkins_server_oop_search/pulls/${env.CHANGE_ID}"
                     )
 
                     def reviewers = prDetails.requested_reviewers
