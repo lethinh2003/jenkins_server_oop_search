@@ -9,6 +9,16 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage('Print Environment Variables') {
+            steps {
+                script {
+                    env.each { k, v ->
+                        echo "${k}=${v}"
+                    }
+                }
+            }
+        }      
         stage('Get Commit Information') {
             steps {
                 script {
