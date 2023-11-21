@@ -13,19 +13,24 @@ pipeline {
             steps {
                 script {
                     // Get the commit details using git command
-                    def commitInfo = bat(script: 'git log -1 --pretty=format:"%H%n%an%n%ae%n%s"', returnStdout: true).trim()
+                    def commitInfo = bat(script: 'git log -1 --pretty=format:"%%H%%n%%an%%n%%ae%%n%%s"', returnStatus: true).trim()
 
-                    // Split the commit information into separate variables
-                    def commitHash
-                    def authorName
-                    def authorEmail
-                    def commitMessage
+                    // Check if the bat command was successful
+                    if (commitInfo == 0) {
+                        // Split the commit information into separate variables
+                        def commitHash
+                        def authorName
+                        def authorEmail
+                        def commitMessage
 
-                    [commitHash, authorName, authorEmail, commitMessage] = commitInfo.split('\n')
+                        [commitHash, authorName, authorEmail, commitMessage] = readFile('git-log-output.txt').trim().split('\n')
 
-                    echo "Commit Hash: ${commitHash}"
-                    echo "Author: ${authorName} <${authorEmail}>"
-                    echo "Commit Message: ${commitMessage}"
+                        echo "Commit Hash: ${commitHash}"
+                        echo "Author: ${authorName} <${authorEmail}>"
+                        echo "Commit Message: ${commitMessage}"
+                    } else {
+                        error "Failed to retrieve commit information."
+                    }
                 }
             }
         }   
