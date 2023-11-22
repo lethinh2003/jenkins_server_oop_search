@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.staging
+    container_name: server_oop_search
     image: lethinh2003/server_oop_search_staging
     ports:
       - "8081:8081"
