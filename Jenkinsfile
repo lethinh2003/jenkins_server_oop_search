@@ -9,7 +9,28 @@ pipeline {
                 checkout scm
             }
         }
-   
+
+        stage('Print Environment Variables') {
+            steps {
+                script {
+                    env.each { k, v ->
+                        echo "${k}=${v}"
+                    }
+                }
+            }
+        }      
+        stage('Get Commit Information') {
+            steps {
+                script {
+                    // Get the commit message using GIT_COMMIT
+                    def commitMessage = bat(script: 'git log -1 --pretty=format:%s', returnStdout: true).trim()
+
+                    echo "Commit Message: ${commitMessage}"
+                }
+            }
+        }
+
+
         stage('Install Packages') {
             steps {
                 script {
