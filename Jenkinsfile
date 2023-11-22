@@ -37,30 +37,7 @@ pipeline {
                 }
             }
         }
-        stage('Review and Merge') {
-            steps {
-                script {
-                    def prDetails = httpRequest(
-                        acceptType: 'APPLICATION_JSON',
-                        authorization: 'Bearer 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',
-                        contentType: 'APPLICATION_JSON',
-                        httpMode: 'GET',
-                        url: "https://api.github.com/repos/lethinh2003/jenkins_server_oop_search/pulls/1"
-                    )
 
-                    def reviewers = prDetails.requested_reviewers
-                    def approvals = prDetails.reviews.findAll { it.state == 'APPROVED' }
-
-                    if (reviewers.size() >= 2 && approvals.size() >= 2) {
-                        // Both reviewers have approved the pull request
-                        echo 'All reviewers approved. Merging pull request...'
-                        // Add your merge steps here
-                    } else {
-                        echo 'Not enough approvals or reviewers yet.'
-                    }
-                }
-            }
-        }
 
         stage('Install Packages') {
             steps {
