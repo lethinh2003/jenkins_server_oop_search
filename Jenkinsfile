@@ -9,12 +9,18 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Get branch name') {
+        steps {
+            script {
+                branchName = sh(label: 'getBranchName', returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                println branchName
+            }   
+        }
+      } 
 
         stage('Print Environment Variables') {
             steps {
                 script {
-                    echo "CHANGEID ${env.CHANGE_ID}"
-                    echo "BRANCH NAME ${env.BRANCH_NAME}"
                     env.each { k, v ->
                         echo "${k}=${v}"
                     }
