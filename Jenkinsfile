@@ -13,6 +13,7 @@ pipeline {
         stage('Print Environment Variables') {
             steps {
                 script {
+                    echo "CHANGEID ${env.CHANGE_ID}"
                     env.each { k, v ->
                         echo "${k}=${v}"
                     }
