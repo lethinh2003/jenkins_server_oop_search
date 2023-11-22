@@ -6,6 +6,9 @@ const http = require("http");
 const app = require("./app");
 
 const server = http.createServer(app);
+const {
+  db: { stringConnect },
+} = require("./configs/config.mongodb");
 
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
@@ -13,11 +16,9 @@ process.on("uncaughtException", (err) => {
   console.log(err.name, err.message);
   process.exit(1);
 });
-dotenv.config({ path: "./config.env" });
 
-const DB = process.env.DATABASE;
 mongoose
-  .connect(DB, {
+  .connect(stringConnect, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
@@ -28,6 +29,7 @@ mongoose
   });
 
 const port = process.env.PORT || 8081;
+console.log(`Môi trường: `, process.env.NODE_ENV || "development");
 
 server.listen(port, () => {
   console.log("Server đang chay tren cong", port);
