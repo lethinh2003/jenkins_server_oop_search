@@ -14,6 +14,7 @@ pipeline {
             steps {
                 script {
                     echo "CHANGEID ${env.CHANGE_ID}"
+                    echo "BRANCH NAME ${env.BRANCH_NAME}"
                     env.each { k, v ->
                         echo "${k}=${v}"
                     }
