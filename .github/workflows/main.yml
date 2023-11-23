@@ -29,6 +29,7 @@ jobs:
      
     - name: Merge Pull Request
       run: |
+        echo "Number of approvals: $APPROVAL_COUNT"
         if [ $APPROVAL_COUNT -ge 1 ]; then
           echo "Merging pull request..."
           curl -X PUT -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN_GITHUB }}" \
