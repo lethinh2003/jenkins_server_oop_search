@@ -1,0 +1,28 @@
+name: Check PR Approval
+
+on:
+  pull_request_review:
+    types:
+      - submitted
+
+jobs:
+  check_approval:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Get PR Info
+      id: pr
+      run: echo "::set-output name=number::${{ github.event.pull_request.number }}"
+
+    - name: Check Approval
+      run: |
+        PR_NUMBER=${{ steps.pr.outputs.number }}
+        API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/reviews"
+
+        APPROVAL_COUNT=$(curl -s -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN_GITHUB }}" \
+          "${API_URL}" | jq -r '.[] | select(.state == "APPROVED") | .user.login' | sort -u | wc -l)
+
+        echo "Number of approvals: $APPROVAL_COUNT"
