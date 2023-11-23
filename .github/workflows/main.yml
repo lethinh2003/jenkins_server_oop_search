@@ -1,4 +1,4 @@
-name: Check PR Approval
+name: Check PR Approval and Merge Pull Request
 
 on:
   pull_request_review:
@@ -17,7 +17,7 @@ jobs:
       id: pr
       run: echo "::set-output name=number::${{ github.event.pull_request.number }}"
 
-    - name: Check Approval
+    - name: Check Approval and Merge Pull Request
       run: |
         PR_NUMBER=${{ steps.pr.outputs.number }}
         API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/reviews"
@@ -26,14 +26,11 @@ jobs:
           "${API_URL}" | jq -r '.[] | select(.state == "APPROVED") | .user.login' | sort -u | wc -l)
 
         echo "Number of approvals: $APPROVAL_COUNT"
-     
-    - name: Merge Pull Request
-      run: |
-        echo "Number of approvals: $APPROVAL_COUNT"
         if [ $APPROVAL_COUNT -ge 1 ]; then
           echo "Merging pull request..."
           curl -X PUT -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN_GITHUB }}" \
             "https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/merge"
         else
           echo "Not enough approvals to merge."
-        fi   
+        fi  
+     
