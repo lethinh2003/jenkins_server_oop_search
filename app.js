@@ -8,7 +8,9 @@ dotenv.config({ path: "./config.env" });
 const app = express();
 const http = require("http");
 const AppError = require("./utils/app_error");
-
+const {
+  server: { port: portConfig },
+} = require("./configs/config.endpoint");
 const errorController = require("./controllers/error_controller");
 const phanLoaiRouters = require("./routers/phanloai_routers");
 const chuongHocRouters = require("./routers/chuonghoc_routers");
@@ -71,7 +73,7 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:8081/api/v1`,
+        url: `http://20.188.118.32:${portConfig}/api/v1`,
         description: "Development server",
       },
     ],
