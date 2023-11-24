@@ -1,6 +1,6 @@
 name: Run npm test
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   test:
@@ -9,6 +9,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      
+    - name: Create env file
+      run: echo "${{ secrets.CONFIG_ENV }}" > config.env
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
