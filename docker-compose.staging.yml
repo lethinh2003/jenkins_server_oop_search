@@ -1,0 +1,10 @@
+version: "3"
+services:
+  server-oop-search-staging:
+    build:
+      context: .
+      dockerfile: Dockerfile.staging
+    container_name: server_oop_search_staging
+    image: lethinh2003/server_oop_search_staging
+    ports:
+      - "8081:8081"

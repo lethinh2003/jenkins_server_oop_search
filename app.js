@@ -8,6 +8,7 @@ dotenv.config({ path: "./config.env" });
 const app = express();
 const http = require("http");
 const AppError = require("./utils/app_error");
+
 const errorController = require("./controllers/error_controller");
 const phanLoaiRouters = require("./routers/phanloai_routers");
 const chuongHocRouters = require("./routers/chuonghoc_routers");
@@ -15,6 +16,9 @@ const phanMucRouters = require("./routers/phanmuc_routers");
 const baiHocRouters = require("./routers/baihoc_routers");
 const searchRouters = require("./routers/search_routers");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsdoc = require("swagger-jsdoc");
+
 //MIDDLEWARE
 app.use(cors());
 app.options(process.env.ENDPOINT_CLIENT, cors());
@@ -53,10 +57,60 @@ app.use((req, res, next) => {
   next();
 });
 
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "OOP Research API",
+      version: "1.0.0",
+      description: "API dành cho OOP Research",
+      contact: {
+        name: "Le Thinh",
+        url: "https://lethinh-blog.site",
+      },
+    },
+    servers: [
+      {
+        url: `http://localhost:8081/api/v1`,
+        description: "Development server",
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+          description: "Điền access token vào đây",
+        },
+        clientIdAuth: {
+          type: "apiKey",
+          name: "X-client-id",
+          in: "header",
+          description: "Điền id của user vào đây",
+        },
+      },
+    },
+  },
+  apis: ["./routers/*_routers.js"], // files containing annotations as above
+};
+
+const openapiSpecification = swaggerJsdoc(options);
+const customSiteTitle = "Tài liệu OOP Research API";
+
 //routers
 app.get("/", (req, res) => {
   res.status(200).send("404 Not Found");
 });
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(openapiSpecification, {
+    customSiteTitle,
+  })
+);
+
 app.use("/api/v1/search", searchRouters);
 app.use("/api/v1/phanloai", phanLoaiRouters);
 app.use("/api/v1/chuonghoc", chuongHocRouters);

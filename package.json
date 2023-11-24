@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "npm run format:write && npm run lint:check",
+    "test": "jest && npm run format:write && npm run lint:check",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "format:check": "prettier --check .",
@@ -38,6 +38,8 @@
     "nodemon": "^2.0.12",
     "slugify": "^1.6.5",
     "socket.io": "^4.4.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "validator": "^13.7.0",
     "xss-clean": "^0.1.1"
   },
@@ -46,9 +48,12 @@
     "npm": "8.1.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.23.3",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
-    "prettier": "^3.1.0"
+    "jest": "^29.7.0",
+    "prettier": "^3.1.0",
+    "supertest": "^6.3.3"
   }
 }

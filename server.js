@@ -9,6 +9,9 @@ const server = http.createServer(app);
 const {
   db: { stringConnect },
 } = require("./configs/config.mongodb");
+const {
+  server: { port: portConfig },
+} = require("./configs/config.endpoint");
 
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
@@ -28,7 +31,7 @@ mongoose
     console.log("DB connected");
   });
 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || portConfig;
 console.log(`Môi trường: `, process.env.NODE_ENV || "development");
 
 server.listen(port, () => {
