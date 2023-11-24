@@ -42,16 +42,8 @@ jobs:
     - name: View tree
       run: ls -la
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.8.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-
-    - name: SSH into server and run commands
+    - name: Trigger Jenkins Job
       run: |
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd levanthinh && ls -la"
-
-    - name: Copy files to SSH server
-      run: |
-        scp -r /* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/levanthinh/  
+        curl -X POST \
+          --user lethinh2003:$JENKINS_TOKEN \
+          "https://firstly-normal-kingfish.ngrok-free.app/job/DeployToStaging/build"
