@@ -42,14 +42,12 @@ jobs:
     - name: View tree
       run: ls -la
 
-    - name: Create tarball
-      run: tar -czf source_code.tar.gz .
-
-    - name: Upload compressed file
-      uses: actions/upload-artifact@v2
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
       with:
-        name: source_code
-        path: source_code.tar.gz
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        known_hosts: 'just-a-placeholder-so-we-dont-get-errors'  
 
-    - name: View tree
-      run: ls -la      
+    - name: Deploy with rsync
+      run: rsync -avz ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/levanthinh/    
+
