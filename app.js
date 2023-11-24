@@ -111,7 +111,13 @@ app.use(
   swaggerUi.serve,
   swaggerUi.setup(openapiSpecification, {
     customSiteTitle,
-    enableCORS: true,
+    swaggerOptions: {
+      requestInterceptor: function (request) {
+        request.headers.Origin = `http://20.188.118.32:8081`;
+        return request;
+      },
+      url: `http://20.188.118.32:8081/docs/api-docs`,
+    },
   })
 );
 

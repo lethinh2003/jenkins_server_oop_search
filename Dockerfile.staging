@@ -5,17 +5,6 @@ FROM node:16.20.2-buster
 # Tạo thư mục làm việc trong container
 WORKDIR /app
 
-# Tạo biến môi trường
-RUN touch ./config.env
-RUN echo "DEV_PORT=8081" >> ./config.env
-RUN echo "STAGING_PORT=8081" >> ./config.env
-RUN echo "PRO_PORT=8082" >> ./config.env
-RUN echo "ENDPOINT_CLIENT=http://localhost:3000" >> ./config.env
-RUN echo "DATABASE=mongodb+srv://muradvn2003:Y2k5PTyQmhV3Nd1M@cluster0.de9mv1p.mongodb.net/?retryWrites=true&w=majority" >> ./config.env
-RUN echo "DEV_DATABASE_STRING=mongodb+srv://muradvn2003:Y2k5PTyQmhV3Nd1M@cluster0.de9mv1p.mongodb.net/?retryWrites=true&w=majority" >> ./config.env
-RUN echo "STAGING_DATABASE_STRING=mongodb+srv://muradvn2003:Y2k5PTyQmhV3Nd1M@cluster0.de9mv1p.mongodb.net/?retryWrites=true&w=majority" >> ./config.env
-RUN echo "PRO_DATABASE_STRING=mongodb+srv://muradvn2003:Y2k5PTyQmhV3Nd1M@cluster0.de9mv1p.mongodb.net/?retryWrites=true&w=majority" >> ./config.env
-
 
 # Sao chép package.json và package-lock.json vào thư mục làm việc
 COPY package*.json ./
