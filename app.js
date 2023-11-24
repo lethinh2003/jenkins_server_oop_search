@@ -23,7 +23,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const endPointClient = process.env.ENDPOINT_CLIENT;
 //MIDDLEWARE
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.options(endPointClient, cors());
 //security http
 app.use(helmet());
