@@ -1,5 +1,4 @@
 name: Deploy to Staging
-
 on:
   push:
     branches:
@@ -10,18 +9,20 @@ on:
       - completed      
 
 jobs:
-  test:
+  check_status:
     runs-on: ubuntu-latest
-
+    outputs:
+      status: ${{ steps.check-status.outputs.status }}
     steps:
     - name: Check if Testing and Analyzing Workflow succeeded
       id: check-status
       run: echo "status=${{ github.event.workflow_run.conclusion == 'success' }}" >> $GITHUB_OUTPUT
-
     - name: Conditionally run if Testing and Analyzing fail
       if: steps.check-status.outputs.status == 'false'
       run: exit 1
-
+  deploy_to_staging:
+    runs-on: ubuntu-latest
+    steps:
     - name: Checkout repository
       uses: actions/checkout@v3
       
@@ -39,10 +40,7 @@ jobs:
     - name: Run tests
       run: npm run test
 
-    - name: View tree
-      run: ls -la
-
-    - name: executing remote ssh commands using ssh key
+    - name: Remove old workplace SSH server
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -50,9 +48,10 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-         ls -la
+          rm -rf server_nodejs
+          mkdir server_nodejs
 
-    - name: copy file via ssh password
+    - name: Copy source from github to SSH server
       uses: appleboy/scp-action@v0.1.4
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -60,10 +59,23 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         source: "./*"
-        target: "/home/ubuntu/levanthinh"
+        target: "/home/ubuntu/server_nodejs"
 
-    - name: Trigger Jenkins Job
-      run: |
-        curl -X POST \
-          --user lethinh2003:${{ secrets.JENKINS_TOKEN }} \
-          "http://20.188.118.32:8080/job/Testing/build"
+    - name: Execute Docker Compose on SSH Server
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          docker rmi lethinh2003/server_oop_search_staging
+          docker stop server-oop-search-staging
+          docker rm server-oop-search-staging
+          docker compose -f docker-compose.staging.yml up -d --build
+
+    # - name: Trigger Jenkins Job
+    #   run: |
+    #     curl -X POST \
+    #       --user lethinh2003:${{ secrets.JENKINS_TOKEN }} \
+    #       "http://20.188.118.32:8080/job/Testing/build"
