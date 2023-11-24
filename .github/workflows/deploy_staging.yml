@@ -69,8 +69,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          docker stop server-oop-search-staging
-          docker rm server-oop-search-staging
+          docker stop server-oop-search-staging || true && docker rm server-oop-search-staging || true
           docker rmi lethinh2003/server_oop_search_staging
           docker compose -f docker-compose.staging.yml up -d --build
 
