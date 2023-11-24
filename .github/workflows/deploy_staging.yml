@@ -42,6 +42,15 @@ jobs:
     - name: View tree
       run: ls -la
 
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: whoami
+
     - name: Trigger Jenkins Job
       run: |
         curl -X POST \
