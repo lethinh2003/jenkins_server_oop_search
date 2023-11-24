@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const http = require("http");
 
 const app = require("./app");
+console.log(lethinh);
 
 const server = http.createServer(app);
 const {
