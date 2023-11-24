@@ -45,5 +45,5 @@ jobs:
     - name: Trigger Jenkins Job
       run: |
         curl -X POST \
-          --user lethinh2003:$JENKINS_TOKEN \
+          --user lethinh2003:${{ secrets.JENKINS_TOKEN }} \
           "https://firstly-normal-kingfish.ngrok-free.app/job/DeployToStaging/build"
