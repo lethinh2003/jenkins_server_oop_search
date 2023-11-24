@@ -46,4 +46,4 @@ jobs:
       run: |
         curl -X POST \
           --user lethinh2003:${{ secrets.JENKINS_TOKEN }} \
-          "https://firstly-normal-kingfish.ngrok-free.app/job/DeployToStaging/build"
+          "http://20.188.118.32:8080/job/Testing/build"
