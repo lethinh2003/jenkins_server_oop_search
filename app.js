@@ -22,8 +22,9 @@ const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const endPointClient = process.env.ENDPOINT_CLIENT;
+
 //MIDDLEWARE
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: endPointClient }));
 
 //security http
 app.use(helmet());
@@ -55,10 +56,14 @@ app.use(mongoSanitize());
 app.use(express.static(`${__dirname}/public`));
 
 //test middleware
+
 app.use((req, res, next) => {
   req.timeNow = new Date().toISOString();
+
   next();
 });
+
+console.log(require("os").hostname());
 
 const options = {
   definition: {

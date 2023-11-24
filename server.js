@@ -37,6 +37,7 @@ console.log(`Môi trường: `, process.env.NODE_ENV || "development");
 server.listen(port, () => {
   console.log("Server đang chay tren cong", port);
 });
+
 process.on("unhandledRejection", (err) => {
   console.log("UNHANDLED REJECTION! 💥 Shutting down...");
   console.log("Error: ", err);
