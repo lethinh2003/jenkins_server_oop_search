@@ -10,29 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Get PR Info
-      id: pr
-      run: echo "::set-output name=number::${{ github.event.pull_request.number }}"
+      - name: Get PR Info
+        id: pr
+        run: echo "::set-output name=number::${{ github.event.pull_request.number }}"
 
-    - name: Check Approval and Merge Pull Request
-      run: |
-        PR_NUMBER=${{ steps.pr.outputs.number }}
-        API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/reviews"
+      - name: Check Approval and Merge Pull Request
+        run: |
+          PR_NUMBER=${{ steps.pr.outputs.number }}
+          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/reviews"
 
-        export APPROVAL_COUNT=$(curl -s -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN_GITHUB }}" \
-          "${API_URL}" | jq -r '.[] | select(.state == "APPROVED") | .user.login' | sort -u | wc -l)
+          export APPROVAL_COUNT=$(curl -s -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN_GITHUB }}" \
+            "${API_URL}" | jq -r '.[] | select(.state == "APPROVED") | .user.login' | sort -u | wc -l)
 
-        echo "Number of approvals: $APPROVAL_COUNT"
-        if [ $APPROVAL_COUNT -ge 1 ]; then
-          echo "Merging pull request..."
-          curl -X PUT -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN_GITHUB }}" \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/merge"
-        else
-          echo "Not enough approvals to merge."
-        fi  
-     
+          echo "Number of approvals: $APPROVAL_COUNT"
+          if [ $APPROVAL_COUNT -ge 1 ]; then
+            echo "Merging pull request..."
+            curl -X PUT -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN_GITHUB }}" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/merge"
+          else
+            echo "Not enough approvals to merge."
+          fi
