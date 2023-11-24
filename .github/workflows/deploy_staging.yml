@@ -47,10 +47,11 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Copy files to SSH server
-      run: |
-        scp -r /* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/levanthinh/  
 
     - name: SSH into server and run commands
       run: |
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd levanthinh && ls -la"
+        
+    - name: Copy files to SSH server
+      run: |
+        scp -r /* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/levanthinh/  
