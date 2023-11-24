@@ -111,7 +111,7 @@ app.use(
   swaggerUi.serve,
   swaggerUi.setup(openapiSpecification, {
     customSiteTitle,
-    enableCORS: false,
+    enableCORS: true,
   })
 );
 
