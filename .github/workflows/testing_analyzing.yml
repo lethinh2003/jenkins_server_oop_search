@@ -23,3 +23,7 @@ jobs:
 
     - name: Run tests
       run: npm run test
+
+    - name: Set test result status
+      id: set-status
+      run: echo "::set-output name=status::success"
