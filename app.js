@@ -21,7 +21,7 @@ const searchRouters = require("./routers/search_routers");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
-const endPointClient = process.env.ENDPOINT_CLIENT || 3000;
+const endPointClient = process.env.ENDPOINT_CLIENT;
 //MIDDLEWARE
 app.use(cors());
 app.options(endPointClient, cors());
