@@ -24,7 +24,7 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const endPointClient = process.env.ENDPOINT_CLIENT;
 //MIDDLEWARE
 app.use(cors({ origin: true, credentials: true }));
-app.options(endPointClient, cors());
+
 //security http
 app.use(helmet());
 
@@ -111,13 +111,6 @@ app.use(
   swaggerUi.serve,
   swaggerUi.setup(openapiSpecification, {
     customSiteTitle,
-    swaggerOptions: {
-      requestInterceptor: function (request) {
-        request.headers.Origin = `http://20.188.118.32:8081`;
-        return request;
-      },
-      url: `http://20.188.118.32:8081/docs/api-docs`,
-    },
   })
 );
 
