@@ -50,7 +50,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-         scp -P 22 ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu/levanthinh
+         scp -r -P 22 ./* ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu/levanthinh/
 
     - name: Trigger Jenkins Job
       run: |
