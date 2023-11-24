@@ -43,4 +43,7 @@ jobs:
       run: ls -la
 
     - name: Compress source
-      run: tar -czf Node.tar.gz .
+      run: Compress-Archive -Path folder/* -Destination new.zip
+
+    - name: View tree
+      run: ls -la      
