@@ -16,7 +16,7 @@ jobs:
     steps:
     - name: Check if Testing and Analyzing Workflow succeeded
       id: check-status
-      run: echo "::set-output name=status::${{ github.event.workflow_run.conclusion == 'success' }}"
+      run: echo "status=${{ github.event.workflow_run.conclusion == 'success' }}" >> $GITHUB_OUTPUT
 
     - name: Conditionally run if Testing and Analyzing fail
       if: steps.check-status.outputs.status == 'false'
@@ -39,5 +39,8 @@ jobs:
     - name: Run tests
       run: npm run test
 
+    - name: View tree
+      run: ls -la
+
     - name: Compress source
-      run: tar czf Node.tar.gz .
+      run: tar -czf Node.tar.gz .
