@@ -42,8 +42,14 @@ jobs:
     - name: View tree
       run: ls -la
 
-    - name: Compress source
-      run: Compress-Archive -Path folder/* -Destination new.zip
+    - name: Create tarball
+      run: tar -czf source_code.tar.gz .
+
+    - name: Upload compressed file
+      uses: actions/upload-artifact@v2
+      with:
+        name: source_code
+        path: source_code.tar.gz
 
     - name: View tree
       run: ls -la      
